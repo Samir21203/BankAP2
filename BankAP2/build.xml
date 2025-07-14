@@ -1,53 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- You may freely edit this file. See commented blocks below for --><!-- some examples of how to customize the build. --><!-- (If you delete it and reopen the project it will be recreated.) --><!-- By default, only the Clean and Build commands use this build script. --><project name="BankAP2" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
-    <description>Builds, tests, and runs the project BankAP2.</description>
-    <import file="nbproject/build-impl.xml"/>
-    <!--
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="BankAP2" default="run" basedir=".">
 
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. Those of them relevant for JavaFX project are: 
+    <property name="src.dir"     value="src"/>
+    <property name="build.dir"   value="build"/>
+    <property name="dist.dir"    value="dist"/>
+    <property name="main.class"  value="application.Main"/> <!-- Altere conforme seu main -->
 
-      -pre-init:                 called before initialization of project properties
-      -post-init:                called after initialization of project properties
-      -pre-compile:              called before javac compilation
-      -post-compile:             called after javac compilation
-      -pre-compile-test:         called before javac compilation of JUnit tests
-      -post-compile-test:        called after javac compilation of JUnit tests
-      -pre-jfx-jar:              called before FX SDK specific <fx:jar> task
-      -post-jfx-jar:             called after FX SDK specific <fx:jar> task
-      -pre-jfx-deploy:           called before FX SDK specific <fx:deploy> task
-      -post-jfx-deploy:          called after FX SDK specific <fx:deploy> task
-      -pre-jfx-native:           called just after -pre-jfx-deploy if <fx:deploy> runs in native packaging mode
-      -post-jfx-native:          called just after -post-jfx-deploy if <fx:deploy> runs in native packaging mode
-      -post-clean:               called after cleaning build products
+    <!-- JavaFX SDK local -->
+    <property name="javafx.sdk"  value="C:/java/javafx-sdk-21"/> <!-- Altere se necessário -->
+    <property name="libs.dir"    value="libs"/>
 
-    (Targets beginning with '-' are not intended to be called on their own.)
+    <!-- Classpath: todas as bibliotecas em libs + JavaFX -->
+    <path id="classpath">
+        <fileset dir="${libs.dir}" includes="**/*.jar"/>
+        <fileset dir="${javafx.sdk}/lib" includes="*.jar"/>
+    </path>
 
-    Example of inserting a HTML postprocessor after javaFX SDK deployment:
+    <!-- Criar diretório de build -->
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
 
-        <target name="-post-jfx-deploy">
-            <basename property="jfx.deployment.base" file="${jfx.deployment.jar}" suffix=".jar"/>
-            <property name="jfx.deployment.html" location="${jfx.deployment.dir}${file.separator}${jfx.deployment.base}.html"/>
-            <custompostprocess>
-                <fileset dir="${jfx.deployment.html}"/>
-            </custompostprocess>
-        </target>
+    <!-- Compilar -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" debug="true">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
 
-    Example of calling an Ant task from JavaFX SDK. Note that access to JavaFX SDK Ant tasks must be
-    initialized; to ensure this is done add the dependence on -check-jfx-sdk-version target:
+    <!-- Executar -->
+    <target name="run" depends="compile">
+        <java classname="${main.class}" fork="true">
+            <classpath>
+                <path refid="classpath"/>
+                <pathelement path="${build.dir}"/>
+            </classpath>
+            <jvmarg value="--module-path"/>
+            <jvmarg value="${javafx.sdk}/lib"/>
+            <jvmarg value="--add-modules=javafx.controls,javafx.fxml"/>
+        </java>
+    </target>
 
-        <target name="-post-jfx-jar" depends="-check-jfx-sdk-version">
-            <echo message="Calling jar task from JavaFX SDK"/>
-            <fx:jar ...>
-                ...
-            </fx:jar>
-        </target>
-
-    For more details about JavaFX SDK Ant tasks go to
-    http://docs.oracle.com/javafx/2/deployment/jfxpub-deployment.htm
-
-    For list of available properties check the files
-    nbproject/build-impl.xml and nbproject/jfx-impl.xml.
-
-    -->
+    <!-- Gerar JAR -->
+    <target name="jar" depends="compile">
+        <jar destfile="${dist.dir}/BankAP2.jar" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value="libs/"/>
+            </manifest>
+        </jar>
+    </target>
 </project>
