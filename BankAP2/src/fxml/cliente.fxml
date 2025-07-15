@@ -32,7 +32,7 @@
       <TextField fx:id="textFieldCliente" layoutX="438.0" layoutY="250.0" prefHeight="27.0" prefWidth="202.0" promptText="Digite um ID" style="-fx-background-color: transparent; -fx-border-color: black;" />
       <ImageView fitHeight="100.0" fitWidth="97.0" layoutX="491.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../Downloads/user%20(2).png" />
+            <Image url="@../../resources/imagepack/user%20(2).png" />
          </image>
       </ImageView>
    </children>
