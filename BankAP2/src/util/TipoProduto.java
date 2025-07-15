@@ -8,6 +8,26 @@ package util;
  *
  * @author Victor
  */
-public class TipoProduto {
+public enum TipoProduto {
     
+    CARTAO_CREDITO("Cartão de Crédito"),
+    EMPRESTIMO("Empréstimo Pessoal"),
+    INVESTIMENTO("Investimento"),
+    SEGURO("Seguro"),
+    TRANSACAO("Transação");
+    
+    private final String nomeProduto;
+    
+    TipoProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
+    }
+    
+    public String getNomeProduto() {
+        return nomeProduto;
+    }
+    
+    @Override
+    public String toString() {
+        return this.getNomeProduto();
+    }
 }
