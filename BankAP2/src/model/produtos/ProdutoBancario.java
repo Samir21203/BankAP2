@@ -4,6 +4,7 @@
  */
 package model.produtos;
 
+import model.Cliente;
 /**
  *
  * @author Victor
