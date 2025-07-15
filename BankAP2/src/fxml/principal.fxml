@@ -1,31 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <MenuBar layoutX="179.0" layoutY="32.0" prefHeight="62.0" prefWidth="262.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </children>
-</AnchorPane>
+<BorderPane fx:id="principalBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <AnchorPane opacity="0.84" prefHeight="414.0" prefWidth="700.0" style="-fx-background-color: #10454F;" BorderPane.alignment="CENTER">
+         <children>
+            <TableView prefHeight="446.0" prefWidth="700.0" style="-fx-background-color: transparent;" visible="false">
+              <columns>
+                <TableColumn prefWidth="55.999998450279236" text="Id" />
+                  <TableColumn prefWidth="212.00000762939453" text="CPF" />
+                <TableColumn prefWidth="430.3999938964844" text="Clientes" />
+              </columns>
+            </TableView>
+            <TableView layoutY="-1.0" prefHeight="448.0" prefWidth="700.0" style="-fx-background-color: transparent;" visible="false">
+               <columns>
+                  <TableColumn prefWidth="55.999998450279236" text="Id" />
+                  <TableColumn prefWidth="212.00000762939453" text="Valor" />
+                  <TableColumn prefWidth="430.3999938964844" text="Produtos" />
+               </columns>
+            </TableView>
+            <TableView layoutY="3.0" prefHeight="444.0" prefWidth="700.0" style="-fx-background-color: transparent;" visible="false">
+               <columns>
+                  <TableColumn prefWidth="55.999998450279236" text="Id" />
+                  <TableColumn prefWidth="212.00000762939453" text="Email" />
+                  <TableColumn prefWidth="430.3999938964844" text="Contas" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <HBox prefHeight="54.0" prefWidth="700.0" style="-fx-background-color: #10454F;" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="102.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0px 4px 4px 0px; -fx-text-fill: black;" text="Clientes" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="102.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0px 4px 4px 0px; -fx-text-fill: black;" text="Produtos" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="102.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0px 4px 4px 0px; -fx-text-fill: black;" text="Contas" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>
