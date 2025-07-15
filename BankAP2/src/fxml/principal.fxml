@@ -12,25 +12,25 @@
    <center>
       <AnchorPane prefHeight="450.0" prefWidth="656.0" style="-fx-background-color: #45C4B0;" BorderPane.alignment="CENTER">
          <children>
-            <TableView layoutY="23.0" prefHeight="470.0" prefWidth="712.0" style="-fx-background-color: transparent;" visible="false">
+            <TableView fx:id="clienteTablePrincipal" layoutY="23.0" prefHeight="470.0" prefWidth="712.0" style="-fx-background-color: transparent;" visible="false">
               <columns>
-                <TableColumn fx:id="idColumnPrincipal" prefWidth="55.999998450279236" style="-fx-background-color: #45C4B0;" text="ID" />
-                  <TableColumn prefWidth="212.00000762939453" style="-fx-background-color: #45C4B0;" text="CPF" />
-                <TableColumn prefWidth="442.3999938964844" style="-fx-background-color: #45C4B0;" text="Clientes" />
+                <TableColumn fx:id="idClienteColumnPrincipal" prefWidth="55.999998450279236" style="-fx-background-color: #45C4B0;" text="ID" />
+                  <TableColumn fx:id="cpfClienteColumnPrincipal" prefWidth="212.00000762939453" style="-fx-background-color: #45C4B0;" text="CPF" />
+                <TableColumn fx:id="clientesColumnPrincipal" prefWidth="442.3999938964844" style="-fx-background-color: #45C4B0;" text="Clientes" />
               </columns>
             </TableView>
-            <TableView layoutX="6.0" layoutY="23.0" prefHeight="469.0" prefWidth="707.0" style="-fx-background-color: transparent;" visible="false">
+            <TableView fx:id="produtoTablePrincipal" layoutX="6.0" layoutY="23.0" prefHeight="469.0" prefWidth="707.0" style="-fx-background-color: transparent;" visible="false">
                <columns>
-                  <TableColumn fx:id="idColumnPrincipal1" prefWidth="55.999998450279236" style="-fx-background-color: #45C4B0;" text="ID" />
-                  <TableColumn prefWidth="212.00000762939453" style="-fx-background-color: #45C4B0;" text="CPF" />
-                  <TableColumn prefWidth="437.5999938964844" style="-fx-background-color: #45C4B0;" text="Clientes" />
+                  <TableColumn fx:id="idColumnProdutosPrincipal" prefWidth="55.999998450279236" style="-fx-background-color: #45C4B0;" text="ID" />
+                  <TableColumn fx:id="precoColumnProdutoPrincipal" prefWidth="212.00000762939453" style="-fx-background-color: #45C4B0;" text="Preço" />
+                  <TableColumn fx:id="produtosColumnPrincipal" prefWidth="437.5999938964844" style="-fx-background-color: #45C4B0;" text="Produtos" />
                </columns>
             </TableView>
-            <TableView layoutX="6.0" layoutY="21.0" prefHeight="474.0" prefWidth="700.0" style="-fx-background-color: transparent;" visible="false">
+            <TableView fx:id="contaTablePrincipal" layoutX="6.0" layoutY="21.0" prefHeight="474.0" prefWidth="700.0" style="-fx-background-color: transparent;" visible="false">
                <columns>
-                  <TableColumn fx:id="idColumnPrincipal2" prefWidth="55.999998450279236" style="-fx-background-color: #45C4B0;" text="ID" />
-                  <TableColumn prefWidth="212.00000762939453" style="-fx-background-color: #45C4B0;" text="Email" />
-                  <TableColumn prefWidth="436.8000244140625" style="-fx-background-color: #45C4B0;" text="Contas" />
+                  <TableColumn fx:id="idColumnContarincipal" prefWidth="55.999998450279236" style="-fx-background-color: #45C4B0;" text="ID" />
+                  <TableColumn fx:id="emailColumnContaPrincipal" prefWidth="212.00000762939453" style="-fx-background-color: #45C4B0;" text="Email" />
+                  <TableColumn fx:id="contaColumnprincipal" prefWidth="436.8000244140625" style="-fx-background-color: #45C4B0;" text="Contas" />
                </columns>
             </TableView>
          </children>
@@ -39,17 +39,17 @@
    <top>
       <HBox prefHeight="49.0" prefWidth="700.0" style="-fx-background-color: #10454F;" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="102.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0px 4px 4px 0px; -fx-text-fill: black;" text="Clientes" textAlignment="CENTER">
+            <Button fx:id="buttonClientesPrincipal" mnemonicParsing="false" prefHeight="102.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0px 4px 4px 0px; -fx-text-fill: black;" text="Clientes" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="102.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0px 4px 4px 0px; -fx-text-fill: black;" text="Produtos" textAlignment="CENTER">
+            <Button fx:id="buttonProdutosPrincipal" mnemonicParsing="false" prefHeight="102.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0px 4px 4px 0px; -fx-text-fill: black;" text="Produtos" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="102.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0px 4px 4px 0px; -fx-text-fill: black;" text="Contas" textAlignment="CENTER">
+            <Button fx:id="buttonContasPrincipal" mnemonicParsing="false" prefHeight="102.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0px 4px 4px 0px; -fx-text-fill: black;" text="Contas" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

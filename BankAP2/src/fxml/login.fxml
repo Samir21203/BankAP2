@@ -35,8 +35,8 @@
    <right>
       <AnchorPane fx:id="rightLoginPane" prefHeight="500.0" prefWidth="394.0" style="-fx-background-color: #F2F2F2;" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="userField" layoutX="101.0" layoutY="181.0" promptText="User Name " style="-fx-background-color: transparent; -fx-border-color: #10454F; -fx-border-width: 0px 0px 2px 0px;" />
-            <PasswordField fx:id="passwordField" layoutX="102.0" layoutY="250.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #10454F; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="userFieldLogin" layoutX="101.0" layoutY="181.0" promptText="User Name " style="-fx-background-color: transparent; -fx-border-color: #10454F; -fx-border-width: 0px 0px 2px 0px;" />
+            <PasswordField fx:id="passwordFieldLogin" layoutX="102.0" layoutY="250.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #10454F; -fx-border-width: 0px 0px 2px 0px;" />
             <Button fx:id="buttonLogin" layoutX="142.0" layoutY="323.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" style="-fx-background-color: #10454F;" text="Login" />
             <AnchorPane layoutX="-59.0" layoutY="111.0" prefHeight="200.0" prefWidth="200.0">
                <children>
@@ -61,7 +61,7 @@
                   <Font name="System Italic" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="112.0" layoutY="428.0" opacity="0.5" text="Forgot Your Password?" textAlignment="CENTER" />
+            <Label fx:id="labelForgotPassword" layoutX="112.0" layoutY="428.0" opacity="0.5" text="Forgot Your Password?" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </right>

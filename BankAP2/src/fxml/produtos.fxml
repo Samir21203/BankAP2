@@ -14,12 +14,12 @@
    <right>
       <AnchorPane prefHeight="500.0" prefWidth="270.0" style="-fx-background-color: #10454F;" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="102.0" layoutY="427.0" mnemonicParsing="false" style="-fx-background-color: #45C4B0;" text="Comprar" textAlignment="CENTER">
+            <Button fx:id="buttonComprarProduto" layoutX="102.0" layoutY="427.0" mnemonicParsing="false" style="-fx-background-color: #45C4B0;" text="Comprar" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <TextField layoutX="49.0" layoutY="277.0" prefHeight="26.0" prefWidth="171.0" promptText="Digite um ID" style="-fx-background-color: tramsparent; -fx-border-color: black;" />
+            <TextField fx:id="textFieldIdProduto" layoutX="49.0" layoutY="277.0" prefHeight="26.0" prefWidth="171.0" promptText="Digite um ID" style="-fx-background-color: tramsparent; -fx-border-color: black;" />
             <ImageView fitHeight="103.0" fitWidth="97.0" layoutX="103.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../resources/imagepack/lease.png" />
@@ -38,9 +38,9 @@
          <children>
             <TableView prefHeight="500.0" prefWidth="431.0" style="-fx-background-color: transparent;">
               <columns>
-                <TableColumn prefWidth="50.39996337890625" style="-fx-background-color: #45C4B0;" text="ID" />
-                <TableColumn prefWidth="100.00002670288086" style="-fx-background-color: #45C4B0;" text="Valor" />
-                  <TableColumn prefWidth="279.20001525878905" style="-fx-background-color: #45C4B0;" text="Produto" />
+                <TableColumn fx:id="idColumnProduto" prefWidth="50.39996337890625" style="-fx-background-color: #45C4B0;" text="ID" />
+                <TableColumn fx:id="valorColumnProduto" prefWidth="100.00002670288086" style="-fx-background-color: #45C4B0;" text="Valor" />
+                  <TableColumn fx:id="produtoColumnProduto" prefWidth="279.20001525878905" style="-fx-background-color: #45C4B0;" text="Produto" />
               </columns>
             </TableView>
          </children>
