@@ -1,26 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
  *
- * @author Victor
+ * @author 
  */
 public class ProdutosController implements Initializable {
+
+    @FXML
+    private Button buttonComprarProduto;
+
+    @FXML
+    private TableColumn<?, ?> idColumnProduto;
+
+    @FXML
+    private TableColumn<?, ?> produtoColumnProduto;
+
+    @FXML
+    private TextField textFieldIdProduto;
+
+    @FXML
+    private TableColumn<?, ?> valorColumnProduto;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        // TODO: Add initialization logic here
+    }
+
 }
