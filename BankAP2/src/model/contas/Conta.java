@@ -1,101 +1,93 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model.contas;
 
-/**
- *
- * @author Victor
- */
+import java.io.Serializable;
 import java.util.ArrayList;
-public abstract class Conta {
+import java.util.List;
+import model.Cliente;
+import util.TipoConta;
+
+public abstract class Conta implements Serializable {
     
-    private int numeroConta;
-    private String cliente;
+    private static final long serialVersionUID = 1L;
+    private static final double TAXA_SAQUE = 0.002;
+    
+    private long numeroConta;
+    private Cliente cliente;
     private double saldo;
-    protected ArrayList <String> historico; //utilizei protected para que as classes filhas possam utilizar o historico.add
-    private static int identificador;
+    protected List <String> historico; //utilizei protected para que as classes filhas possam utilizar o historico.add
     
         
-    public Conta(String cliente){
-        numeroConta = ++identificador;
+    public Conta(Cliente cliente){
         this.cliente=cliente;
         saldo = 0.0;
         historico = new ArrayList();
     }
         
-       
-    public int getNumeroConta() {
+    // --- Getters e Setters
+    public long getNumeroConta() {
         return numeroConta;
     }
+    
+    // Número definido pelo DAO
+    public void setNumeroConta(long numeroConta) {
+        this.numeroConta = numeroConta;
+    }
 
-    public String getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
-
-    public double getSaldo() {
-        return saldo;
-    }
-
-    public void setCliente(String cliente) {
+    
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
     
+    public double getSaldo() {
+        return saldo;
+    }
+    
+    protected void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+    
+    // --- Métodos  de Negócio ---
     public boolean depositar(double valor) {
         if(valor > 0) {
-            saldo+= valor;
-            System.out.println("Depósito realizado com sucesso!");
-            historico.add("\nDepositou R$ "+valor);
+            this.saldo+= valor;
+            this.historico.add("\nDepositou R$ "+valor);
             return true;
         }
-        System.out.println("Valor inválido. O depósito não foi realizado!");
         return false;
-        
     }
-    //metodo sacar com taxa de 0,2%
+    
     public boolean sacar(double valor) {
         if(valor > 0) {
-            double taxa = valor * 0.002;
+            double taxa = valor * TAXA_SAQUE;
             double total = valor + taxa;
                         
-            if(total > saldo) {
-                System.out.println("Saldo insuficiente. O saque não foi realizado!");
-                return false;
+            if(total <= saldo) {
+                saldo -= total;
+                historico.add("\nSacou R$ "+valor);
+                return true;
             }
-            saldo -= total;
-            System.out.println("Saque realizado com sucesso!");
-            historico.add("\nSacou R$ "+valor);
-            return true;
+            return false;
         }
-        System.out.println("Valor inválido. O saque não foi realizado!");
         return false;
-    }
-    public double consultarSaldo() {
-        return getSaldo();
-    }
-    
+    }    
         
-    public String recuperarDadosConta() {
-        return "-----------------------" + 
-               "\nNúmero da conta: " + getNumeroConta() +
-               "\nSaldo: " + getSaldo() + 
-               "\nTipo: " + this.getTipo() + 
-               "\n-----------------------\n"; 
-    }
+    //public String recuperarDadosConta() {
+    //    return "-----------------------" + 
+    //           "\nNúmero da conta: " + getNumeroConta() +
+    //           "\nSaldo: " + getSaldo() + 
+    //           "\nTipo: " + this.getTipo() + 
+    //           "\n-----------------------\n"; 
+    //}
     
-    public String mostrarHistorico(){
-        String s = "";
-        for(int i=0; i < historico.size(); i++)
-            s = s + historico.get(i) + "\n";
-        return s;
-    }
-    
-    //método polimórfico
-    public void percorreContas() {
+    public List<String> getHistorico(){
+        return historico;
     }
     
     //getTipo
-    public abstract String getTipo();
+    public abstract TipoConta getTipo();
     
 }

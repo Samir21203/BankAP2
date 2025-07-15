@@ -1,43 +1,60 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model.produtos;
 
 import model.Cliente;
-/**
- *
- * @author Victor
- */
+import util.TipoProduto;
+
 public class Seguro implements ProdutoBancario {
-    private String tipo; // Vida, Automóvel, etc.
+    
+    private static final long serialVersionUID = 1L;
+    
+    private long codigo;
+    private String tipoSeguro; // Vida, Automóvel, etc.
     private double valorMensal;
     private Cliente cliente;
 
     public Seguro(Cliente cliente, String tipo, double valorMensal){
         this.cliente = cliente;
-        this.tipo = tipo;
+        this.tipoSeguro = tipo;
         this.valorMensal = valorMensal;
-    }
-    
-    public String getDescricao() {
-        return "Seguro " + tipo + " por " + valorMensal + " ao mês.";
     }
 
     //getters
     public String getTipo(){
-        return tipo;
+        return tipoSeguro;
     }
     public double getValorMensal(){
         return valorMensal;
     }
+    
+    public void setValorMensal(double valorMensal){
+        this.valorMensal = valorMensal;
+    }
+    
+    // --- Métodos das Interfaces ---
+    @Override
+    public long getCodigo () {
+        return this.codigo;
+    }
+    
+    @Override
+    public void setCodigo (long codigo) {
+        this.codigo = codigo;
+    }
+    
+    @Override
     public Cliente getCliente(){
         return cliente;
     }
     
-    //setters
-    public void setValorMensal(double valorMensal){
-        this.valorMensal = valorMensal;
+    @Override 
+    public String getDescricao () {
+        return String.format("Seguro %s: R$ %.2f/mês", this.tipoSeguro, this.valorMensal);
+    }
+    
+    @Override
+    public TipoProduto getTipoProduto () {
+        return TipoProduto.SEGURO;
     }
 }
 

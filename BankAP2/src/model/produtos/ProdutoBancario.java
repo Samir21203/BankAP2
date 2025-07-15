@@ -1,14 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
+
 package model.produtos;
 
+import java.io.Serializable;
 import model.Cliente;
-/**
- *
- * @author Victor
- */
-public interface ProdutoBancario {
+import util.TipoProduto;
+
+public interface ProdutoBancario extends Serializable {
+    long getCodigo();
+    void setCodigo(long codigo);
     
+    Cliente getCliente();
+    String getDescricao();
+    TipoProduto getTipoProduto();
 }

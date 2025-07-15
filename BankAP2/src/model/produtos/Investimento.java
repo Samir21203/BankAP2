@@ -1,47 +1,61 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model.produtos;
 
 import model.Cliente;
+import util.TipoProduto;
 
-/**
- *
- * @author Victor
- */
+
 public class Investimento implements ProdutoBancario {
+    
+    private static final long serialVersionUID = 1L;
+    
+    private long codigo;
     private double valorInicial;
-    private double rendimentoAnual;
-    private int anos;
+    private double rendimentoMensal;
     private Cliente cliente;
     
-    public Investimento(Cliente cliente, double valorInicial, double rendimentoAnual, int anos){
+    public Investimento(Cliente cliente, double valorInicial, double rendimentoMensal, int anos){
         this.cliente = cliente;
         this.valorInicial = valorInicial;
-        this.rendimentoAnual = rendimentoAnual;
-        this.anos = anos;
+        this.rendimentoMensal = rendimentoMensal;
     }
 
-    public double calcularValorFinal() {
-        return valorInicial * Math.pow(1 + rendimentoAnual, anos);
+    public double calcularValorAposMeses(int meses) {
+        return valorInicial * Math.pow(1 + rendimentoMensal, meses);
     }
 
-    public String getDescricao() {
-        return "Investimento de R$ " + valorInicial + " por " + anos + " anos.";
-    }
-
-    //getters
-    public double getValorInicial(){
+    // Getters
+    public double getValorInicial() {
         return valorInicial;
     }
-    public double getRendimentoAnual(){
-        return rendimentoAnual;
+    
+    public double getRendimentoMensal () {
+        return rendimentoMensal;
     }
-    public int getAnos(){
-        return anos;
+    
+    // --- Métodos da Interface ---
+    @Override
+    public long getCodigo () {
+        return this.codigo;
     }
-    public Cliente getCliente(){
-        return cliente;
+    
+    @Override
+    public void setCodigo (long codigo) {
+        this.codigo = codigo;
+    }
+    
+    @Override
+    public Cliente getCliente () {
+        return this.cliente;
+    }
+    
+    @Override
+    public String getDescricao () {
+        return String.format("Investimento: R$ %.2f aplicados", this.valorInicial);
+    }
+    
+    @Override
+    public TipoProduto getTipoProduto () {
+        return TipoProduto.INVESTIMENTO;
     }
 }
