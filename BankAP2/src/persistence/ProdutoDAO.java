@@ -18,7 +18,7 @@ public class ProdutoDAO {
     
     public static ProdutoDAO getInstance () {
         if (instancia == null) {
-            instancia = new PodutoDAO();
+            instancia = new ProdutoDAO();
         }
         return instancia;
     }
