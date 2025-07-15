@@ -4,21 +4,26 @@
  */
 package model.contas;
 
-/**
- *
- * @author Victor
- */
-public class ContaCorrente extends Conta {
+import java.io.Serializable;
+import model.Cliente;
+import util.TipoConta;
+
+
+public class ContaCorrente extends Conta implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
+    private static final double TAXA_SAQUE = 0.002;
     
     private double limiteChequeEspecial;
     private double taxaManutencaoMensal;
 
-    public ContaCorrente(String cliente, double limiteChequeEspecial, double taxaManutencaoMensal) {
+    public ContaCorrente(Cliente cliente, double limiteChequeEspecial, double taxaManutencaoMensal) {
         super(cliente);
         this.limiteChequeEspecial = limiteChequeEspecial;
         this.taxaManutencaoMensal = taxaManutencaoMensal;
     }
 
+    // --- Getters e Setters ---
     public double getLimiteChequeEspecial() {
         return limiteChequeEspecial;
     }
@@ -34,30 +39,32 @@ public class ContaCorrente extends Conta {
     public void setTaxaManutencaoMensal(double taxaManutencaoMensal) {
         this.taxaManutencaoMensal = taxaManutencaoMensal;
     }
+    
+    public void aplicarTaxaManutencao() {
+        setSaldo(getSaldo() - this.taxaManutencaoMensal);
+        historico.add(String.format("Taxa de Manutenção: - R$ %.2f", this.taxaManutencaoMensal));
+    }
 
     @Override
     public boolean sacar(double valor) {
         if (valor > 0) {
-            double taxa = valor * 0.002;
+            double taxa = valor * TAXA_SAQUE;
             double total = valor + taxa;
 
-            if (total > (getSaldo() + limiteChequeEspecial)) {
-                System.out.println("Limite insuficiente. O saque não foi realizado!");
-                return false;
+            if (total <= (getSaldo() + limiteChequeEspecial)) {
+                //System.out.println("Saque realizado com sucesso!");
+                setSaldo(getSaldo() - total);
+                historico.add("\nSacou R$ " + valor + " (com uso de cheque especial, se necessário)");
+                return true;
             }
-
-                        
-            System.out.println("Saque realizado com sucesso!");
-            historico.add("\nSacou R$ " + valor + " (com uso de cheque especial, se necessário)");
-            return true;
         }
-        System.out.println("Valor inválido. O saque não foi realizado!");
+        //System.out.println("Valor inválido. O saque não foi realizado!");
         return false;
     }
 
     @Override
-    public String getTipo() {
-        return "Conta Corrente";
+    public TipoConta getTipo() {
+        return TipoConta.CONTA_CORRENTE;
     }
     
 }

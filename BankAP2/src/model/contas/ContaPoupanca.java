@@ -4,21 +4,24 @@
  */
 package model.contas;
 
-/**
- *
- * @author Victor
- */
-public class ContaPoupanca extends Conta {
+import java.io.Serializable;
+import java.time.LocalDate;
+import model.Cliente;
+import util.TipoConta;
+
+public class ContaPoupanca extends Conta implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     
     private double taxaRendimento;
     private int diaRendimento; // dia simulado
-    private int mesesSemRendimento; // contador de ciclos simulando meses
+    private LocalDate dataUltimoRendimento; // contador de ciclos simulando meses
 
-    public ContaPoupanca(String cliente, double taxaRendimento, int diaRendimento) {
+    public ContaPoupanca(Cliente cliente, double taxaRendimento, int diaRendimento) {
         super(cliente);
         this.taxaRendimento = taxaRendimento;
-        this.diaRendimento = diaRendimento;
-        this.mesesSemRendimento = 1; // começa com um mês disponível
+        this.diaRendimento = (diaRendimento < 1 || diaRendimento > 28) ? 1 : diaRendimento;
+        this.dataUltimoRendimento = null; // começa com um mês disponível
     }
 
     public double getTaxaRendimento() {
@@ -37,25 +40,49 @@ public class ContaPoupanca extends Conta {
         this.diaRendimento = diaRendimento;
     }
 
-    public void simularPassagemDeMes() {
-        mesesSemRendimento++;
-    }
-
-    public void aplicarRendimento() {
-        if (mesesSemRendimento >= 1) {
-            double rendimento = getSaldo() * taxaRendimento;
-            depositar(rendimento);
-            historico.add("\nRendimento aplicado: R$ " + rendimento);
-            System.out.println("Rendimento aplicado com sucesso.");
-            mesesSemRendimento = 0; // zera o contador após aplicar
-        } else {
-            System.out.println("Rendimento já aplicado neste mês simulado.");
+    public boolean aplicarRendimento() {
+        LocalDate hoje = LocalDate.now();
+        
+        // Condição 1: O rendimento deste mês ja foi aplicado?
+        // Verifica se o último rendimento foi no mesmo mês e ano de hoje.
+        if (dataUltimoRendimento != null &&
+                dataUltimoRendimento.getMonth() == hoje.getMonth() &&
+                dataUltimoRendimento.getYear() == hoje.getYear()) {
+            return false; // Já rendeu neste mês
         }
+        
+        // Condição 2: Hoje é o dia do aniversário da conta?
+        if (hoje.getDayOfMonth() == this.diaRendimento) {
+            if (getSaldo() > 0) {
+                double rendimento = getSaldo() * this.taxaRendimento;
+                
+                super.depositar(rendimento);
+                
+                if (!historico.isEmpty()) {
+                    historico.set(historico.size() - 1, String.format("Rendimento: + R$ %.2f", rendimento));
+                }
+                
+                // Atualiza a data do último rendimento para hoje
+                this.dataUltimoRendimento = hoje;
+                return true;
+            }
+        }
+        
+        return false; // Não é o dia do rendimento ou não há saldo
+        //if (mesesSemRendimento >= 1) {
+        //    double rendimento = getSaldo() * taxaRendimento;
+        //    depositar(rendimento);
+        //    historico.add("\nRendimento aplicado: R$ " + rendimento);
+        //    System.out.println("Rendimento aplicado com sucesso.");
+        //    mesesSemRendimento = 0; // zera o contador após aplicar
+        //} else {
+        //    System.out.println("Rendimento já aplicado neste mês simulado.");
+        //}
     }
 
     @Override
-    public String getTipo() {
-        return "Conta Poupança";
+    public TipoConta getTipo() {
+        return TipoConta.CONTA_POUPANCA;
     }
     
 }

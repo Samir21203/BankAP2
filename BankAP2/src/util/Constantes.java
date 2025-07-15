@@ -19,6 +19,7 @@ public class Constantes {
     public static final String ARQUIVO_CLIENTES = "clientes.dat";
     public static final String ARQUIVO_CONTAS = "contas.dat";
     public static final String ARQUIVO_GESTORES = "gestores.dat";
+    public static final String ARQUIVO_PRODUTOS = "produtos.dat";
     
     // Mensagens de Alerta e Confirmação
     public static final String ERRO_LOGIN_INVALIDO = "Login ou senha inválidos. Tente novamente.";

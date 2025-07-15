@@ -1,35 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model.produtos;
 
 //import model.produtos.ProdutoBancario;
 import model.Cliente;
-/**
- *
- * @author Victor
- */
+import util.TipoProduto;
+
 public class CartaoCredito implements ProdutoBancario {
-    private final int codigo;
+    
+    private static final long serialVersionUID = 1L;
+    
+    private long codigo;
     private final String validade;
     private double limite;
     private double fatura;
     private final Cliente cliente;
-    private static int geraCodigo = 1;
     
     public CartaoCredito (String validade, double limite, Cliente cliente){
         this.cliente = cliente;
         this.limite = limite;
         this.validade = validade;
-        this.codigo = geraCodigo;
         this.fatura = 0;
-        geraCodigo += 1;
     }
     
     public boolean realizarCompra(double valor){
         boolean compra = false;
-        if(valor <= limite){
+        if(valor <= (this.limite - this.fatura)) {
         limite -= valor;
         fatura += valor;
         compra = true;
@@ -41,10 +36,7 @@ public class CartaoCredito implements ProdutoBancario {
         fatura -= valor;
     }
     
-    //getters
-    public int getCodigo(){
-        return codigo;
-    }
+    //getters    
     public String getValidade(){
         return validade;
     }
@@ -54,12 +46,35 @@ public class CartaoCredito implements ProdutoBancario {
     public double getFatura(){
         return fatura;
     }
-    public Cliente getCliente(){
-        return cliente;
-    }
     
     //setters
     public void setLimite(double limite){
         this.limite = limite;
+    }
+    
+    // --- Métodos da interface ---
+        @Override
+    public long getCodigo(){
+        return codigo;
+    }
+    
+    @Override
+    public void setCodigo (long codigo) {
+        this.codigo = codigo;
+    }
+    
+    @Override
+    public Cliente getCliente(){
+        return cliente;
+    }
+    
+    @Override 
+    public String getDescricao() {
+        return String.format("Cartão de Crédito - Limite de: R$ %.2f", this.limite);
+    }
+    
+    @Override 
+    public TipoProduto getTipoProduto () {
+        return TipoProduto.CARTAO_CREDITO;
     }
 }
