@@ -6,7 +6,7 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
+
 /**
  *
  * @author Victor
@@ -109,6 +109,6 @@ public class Cliente implements Serializable {
     
     @Override
     public int hashCode() {
-        return cpf != null ,? cpf.hashCode() : 0;
+        return cpf != null ? cpf.hashCode() : 0;
     }
 }
