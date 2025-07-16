@@ -53,12 +53,12 @@ public class Emprestimo implements ProdutoBancario {
     
     // --- Implementação dos métodos da interface ---
     @Override
-    public long getCodigo () {
+    public long getCodigoUnico () {
         return this.codigo;
     }
     
     @Override
-    public void setCodigo (long codigo) {
+    public void setCodigoUnico (long codigo) {
         this.codigo = codigo;
     }
     

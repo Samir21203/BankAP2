@@ -6,8 +6,8 @@ import model.Cliente;
 import util.TipoProduto;
 
 public interface ProdutoBancario extends Serializable {
-    long getCodigo();
-    void setCodigo(long codigo);
+    long getCodigoUnico ();
+    void setCodigoUnico (long codigo);
     
     Cliente getCliente();
     String getDescricao();

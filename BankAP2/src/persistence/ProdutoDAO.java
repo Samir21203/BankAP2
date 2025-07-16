@@ -26,8 +26,8 @@ public class ProdutoDAO {
     private long gerarProximoCodigo() {
         long maxCodigo = 0L;
         for (ProdutoBancario produto : produtos) {
-            if (produto.getCodigo() > maxCodigo) {
-                maxCodigo = produto.getCodigo();
+            if (produto.getCodigoUnico() > maxCodigo) {
+                maxCodigo = produto.getCodigoUnico();
             }
         }
         return maxCodigo + 1;
@@ -61,14 +61,14 @@ public class ProdutoDAO {
     }
     
     public void add(ProdutoBancario produto) {
-        produto.setCodigo(gerarProximoCodigo());
+        produto.setCodigoUnico(gerarProximoCodigo());
         this.produtos.add(produto);
         salvarNoArquivo();
     }
     
     public void update(ProdutoBancario produtoAtualizado) {
         for (int i = 0; i < produtos.size(); i++) {
-            if (produtos.get(i).getCodigo() == produtoAtualizado.getCodigo()) {
+            if (produtos.get(i).getCodigoUnico() == produtoAtualizado.getCodigoUnico()) {
                 produtos.set(i, produtoAtualizado);
                 salvarNoArquivo();
                 break;
@@ -83,7 +83,7 @@ public class ProdutoDAO {
     
     public ProdutoBancario getByCodigo(long codigo) {
         for (ProdutoBancario produto : produtos) {
-            if (produto.getCodigo() == codigo) {
+            if (produto.getCodigoUnico() == codigo) {
                 return produto;
             }
         }
