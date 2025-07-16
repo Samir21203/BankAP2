@@ -1,130 +1,158 @@
 package controller;
 
 import java.net.URL;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import model.Cliente;
 import model.contas.Conta;
 import model.contas.ContaCorrente;
 import model.contas.ContaPoupanca;
+import persistence.ClienteDAO;
+import persistence.ContaDAO;
+import util.Formatador;
+import util.TipoConta;
 
 public class ContaController implements Initializable {
 
-    @FXML
-    private Button buttonDeleteConta;
+    // Componentes FXML (adapte os fx:id no seu FXML para estes nomes)
+    @FXML private TableView<Conta> tableViewContas;
+    @FXML private TableColumn<Conta, Long> columnNumero;
+    @FXML private TableColumn<Conta, Cliente> columnCliente;
+    @FXML private TableColumn<Conta, TipoConta> columnTipo;
 
-    @FXML
-    private Button buttonNewConta;
+    // Seção para criar nova conta
+    @FXML private ComboBox<Cliente> comboBoxCliente;
+    @FXML private ComboBox<TipoConta> comboBoxTipoConta;
+    @FXML private Button buttonNewConta;
 
-    @FXML
-    private Button buttonSaveConta;
+    // Seção de detalhes e ações
+    @FXML private Label labelNumeroConta;
+    @FXML private Label labelSaldo;
+    @FXML private Label labelClienteNome;
+    @FXML private Button buttonDeleteConta;
 
-    @FXML
-    private TableColumn<Conta, Integer> idColumnConta;
-
-    @FXML
-    private TableColumn<Conta, String> contaColumnConta;
-
-    @FXML
-    private TableColumn<Conta, String> tipoColumnConta;
-
-    @FXML
-    private TextField textFieldCliente;
-
-    @FXML
-    private ComboBox<String> comboBoxTipoConta;
-
-    @FXML
-    private TableView<Conta> tableViewConta;
-
-    private ObservableList<Conta> listaContas;
-    private Conta contaSelecionada = null;
+    private Conta contaSelecionada;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        listaContas = FXCollections.observableArrayList();
+        // --- Configuração da Tabela ---
+        columnNumero.setCellValueFactory(new PropertyValueFactory<>("numeroConta"));
+        columnCliente.setCellValueFactory(new PropertyValueFactory<>("cliente")); // Usa o toString() do Cliente
+        columnTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
 
-        idColumnConta.setCellValueFactory(new PropertyValueFactory<>("numeroConta"));
-        contaColumnConta.setCellValueFactory(new PropertyValueFactory<>("cliente"));
-        tipoColumnConta.setCellValueFactory(new PropertyValueFactory<>("tipo")); // getter personalizado
+        // Adiciona um "ouvinte" para quando uma linha da tabela for selecionada
+        tableViewContas.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> preencherDetalhes(newValue));
 
-        tableViewConta.setItems(listaContas);
-
-        comboBoxTipoConta.getItems().addAll("Conta Corrente", "Conta Poupança");
-        comboBoxTipoConta.getSelectionModel().selectFirst();
-
-        tableViewConta.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
-            if (newSel != null) {
-                contaSelecionada = newSel;
-                textFieldCliente.setText(contaSelecionada.getCliente());
-                comboBoxTipoConta.setValue(contaSelecionada.getTipo());
-            }
-        });
+        // --- Carregamento de Dados Iniciais ---
+        carregarComboBoxes();
+        carregarTabelaContas();
+        limparDetalhes();
     }
 
     @FXML
-    private void handleSaveConta(ActionEvent event) {
-        String cliente = textFieldCliente.getText().trim();
-        String tipo = comboBoxTipoConta.getValue();
+    private void handleNewConta() {
+        Cliente cliente = comboBoxCliente.getSelectionModel().getSelectedItem();
+        TipoConta tipo = comboBoxTipoConta.getSelectionModel().getSelectedItem();
 
-        if (cliente.isEmpty()) {
-            System.out.println("Nome do cliente não pode ser vazio.");
+        if (cliente == null || tipo == null) {
+            mostrarAlerta(AlertType.ERROR, "Erro ao Criar Conta", "Por favor, selecione um cliente e um tipo de conta.");
             return;
         }
 
+        Conta novaConta;
+        if (tipo == TipoConta.CONTA_CORRENTE) {
+            // Usa o objeto Cliente, não uma String
+            novaConta = new ContaCorrente(cliente, 1000.0, 15.0); // Limite e taxa padrão
+        } else {
+            novaConta = new ContaPoupanca(cliente, 0.005, 10); // Rendimento e dia padrão
+        }
+        
+        // Usa o DAO para adicionar e persistir a nova conta
+        ContaDAO.getInstance().add(novaConta);
+        
+        carregarTabelaContas(); // Atualiza a tabela na tela
+        mostrarAlerta(AlertType.INFORMATION, "Sucesso", "Nova " + tipo.getDescricao() + " criada para " + cliente.getNome());
+    }
+    
+    @FXML
+    private void handleDeleteConta() {
         if (contaSelecionada == null) {
-            Conta novaConta;
-
-            if (tipo.equals("Conta Corrente")) {
-                novaConta = new ContaCorrente(cliente, 1000.0, 12.0); // valores padrão
-            } else {
-                novaConta = new ContaPoupanca(cliente, 0.02, 5); // valores padrão
-            }
-
-            listaContas.add(novaConta);
-            System.out.println("Nova conta criada: " + cliente + " [" + tipo + "]");
-        } else {
-            contaSelecionada.setCliente(cliente);
-            System.out.println("Conta atualizada: " + cliente);
-            tableViewConta.refresh();
+            mostrarAlerta(AlertType.WARNING, "Nenhuma Conta Selecionada", "Por favor, selecione uma conta na tabela para excluir.");
+            return;
         }
 
-        clearForm();
+        Optional<ButtonType> resultado = mostrarAlertaConfirmacao("Confirmar Exclusão",
+                "Tem certeza que deseja excluir a conta " + contaSelecionada.getNumeroConta() + "?");
+
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            ContaDAO.getInstance().delete(contaSelecionada);
+            carregarTabelaContas();
+            limparDetalhes();
+            mostrarAlerta(AlertType.INFORMATION, "Sucesso", "Conta excluída com sucesso!");
+        }
     }
 
-    @FXML
-    private void handleNewConta(ActionEvent event) {
-        clearForm();
+    private void carregarTabelaContas() {
+        ObservableList<Conta> obsContas = FXCollections.observableArrayList(ContaDAO.getInstance().getAll());
+        tableViewContas.setItems(obsContas);
     }
 
-    @FXML
-    private void handleDeleteConta(ActionEvent event) {
-        Conta conta = tableViewConta.getSelectionModel().getSelectedItem();
+    private void carregarComboBoxes() {
+        // Carrega os clientes do DAO para o ComboBox
+        List<Cliente> clientes = ClienteDAO.getInstance().getAll();
+        comboBoxCliente.setItems(FXCollections.observableArrayList(clientes));
+        
+        // Carrega os tipos de conta do Enum
+        comboBoxTipoConta.setItems(FXCollections.observableArrayList(TipoConta.values()));
+    }
+    
+    private void preencherDetalhes(Conta conta) {
+        this.contaSelecionada = conta;
         if (conta != null) {
-            listaContas.remove(conta);
-            System.out.println("Conta removida: " + conta.getCliente());
-            clearForm();
+            labelNumeroConta.setText(String.valueOf(conta.getNumeroConta()));
+            labelSaldo.setText(Formatador.formatarMoeda(conta.getSaldo()));
+            labelClienteNome.setText(conta.getCliente().getNome());
         } else {
-            System.out.println("Nenhuma conta selecionada.");
+            limparDetalhes();
         }
     }
-
-    private void clearForm() {
-        textFieldCliente.clear();
-        comboBoxTipoConta.getSelectionModel().selectFirst();
-        tableViewConta.getSelectionModel().clearSelection();
+    
+    private void limparDetalhes() {
         contaSelecionada = null;
+        labelNumeroConta.setText("-");
+        labelSaldo.setText("-");
+        labelClienteNome.setText("-");
+        tableViewContas.getSelectionModel().clearSelection();
+    }
+    
+    private void mostrarAlerta(AlertType tipo, String titulo, String mensagem) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensagem);
+        alerta.showAndWait();
+    }
+
+    private Optional<ButtonType> mostrarAlertaConfirmacao(String titulo, String mensagem) {
+        Alert alerta = new Alert(AlertType.CONFIRMATION);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensagem);
+        return alerta.showAndWait();
     }
 }

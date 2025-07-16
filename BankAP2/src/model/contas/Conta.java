@@ -54,7 +54,7 @@ public abstract class Conta implements Serializable {
     public boolean depositar(double valor) {
         if(valor > 0) {
             this.saldo+= valor;
-            this.historico.add("\nDepositou R$ "+valor);
+            this.historico.add(String.format("Depósito: + R$ %.2f", valor));
             return true;
         }
         return false;
@@ -67,10 +67,9 @@ public abstract class Conta implements Serializable {
                         
             if(total <= saldo) {
                 saldo -= total;
-                historico.add("\nSacou R$ "+valor);
+                historico.add(String.format("Saque: - R$ %.2f (Taxa: R$ %.2f)", valor, taxa));
                 return true;
             }
-            return false;
         }
         return false;
     }    

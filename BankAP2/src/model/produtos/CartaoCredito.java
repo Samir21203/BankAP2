@@ -54,12 +54,12 @@ public class CartaoCredito implements ProdutoBancario {
     
     // --- Métodos da interface ---
         @Override
-    public long getCodigo(){
+    public long getCodigoUnico(){
         return codigo;
     }
     
     @Override
-    public void setCodigo (long codigo) {
+    public void setCodigoUnico (long codigo) {
         this.codigo = codigo;
     }
     

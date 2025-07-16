@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model.contas;
 
 import java.io.Serializable;
@@ -52,13 +49,11 @@ public class ContaCorrente extends Conta implements Serializable {
             double total = valor + taxa;
 
             if (total <= (getSaldo() + limiteChequeEspecial)) {
-                //System.out.println("Saque realizado com sucesso!");
                 setSaldo(getSaldo() - total);
-                historico.add("\nSacou R$ " + valor + " (com uso de cheque especial, se necessário)");
+                historico.add(String.format("Saque: - R$ %.2f (Taxa: R$ %.2f)", valor, taxa));
                 return true;
             }
         }
-        //System.out.println("Valor inválido. O saque não foi realizado!");
         return false;
     }
 

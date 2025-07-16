@@ -8,12 +8,10 @@ import java.util.List;
 import model.Cliente;
 import util.Constantes;
 
-/**
- *
- * @author Victor
- */
+
 public class ClienteDAO {
-    private static ClienteDAO instancia;
+    private static final ClienteDAO instancia = new ClienteDAO();
+    
     private List<Cliente> clientes;
     
     // Construtor privado que carrega os clientes do arquivo no momento da criação
@@ -23,10 +21,17 @@ public class ClienteDAO {
     
     // Método público para obter a instância única da classe.
     public static ClienteDAO getInstance() {
-        if (instancia == null) {
-            instancia = new ClienteDAO();
-        }
         return instancia;
+    }
+    
+    private long gerarProximoId() {
+        long maxId = 0;
+        for (Cliente cliente : clientes) {
+            if (cliente.getId() > maxId) {
+                maxId = cliente.getId();
+            }
+        }
+        return maxId + 1;
     }
     
     // Salva a lista atual de clientes no arquivo binário.
@@ -68,6 +73,7 @@ public class ClienteDAO {
      * @param cliente a ser adicionado
      */
     public void add(Cliente cliente) {
+        cliente.setId(gerarProximoId());
         this.clientes.add(cliente);
         salvarNoArquivo();
     }
@@ -77,9 +83,9 @@ public class ClienteDAO {
      * @param clienteAtualizado com informações atualizadas
      */
     public void update(Cliente clienteAtualizado) {
-        // Encontra o cliente pelo CPF e o substitui na lista
+        // Encontra o cliente pelo ID e o substitui na lista
         for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getCpf().equals(clienteAtualizado.getCpf())) {
+            if (clientes.get(i).getId() == clienteAtualizado.getId()) {
                 clientes.set(i, clienteAtualizado);
                 salvarNoArquivo();
                 break;

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model.contas;
 
 import java.io.Serializable;
@@ -67,17 +64,7 @@ public class ContaPoupanca extends Conta implements Serializable {
                 return true;
             }
         }
-        
-        return false; // Não é o dia do rendimento ou não há saldo
-        //if (mesesSemRendimento >= 1) {
-        //    double rendimento = getSaldo() * taxaRendimento;
-        //    depositar(rendimento);
-        //    historico.add("\nRendimento aplicado: R$ " + rendimento);
-        //    System.out.println("Rendimento aplicado com sucesso.");
-        //    mesesSemRendimento = 0; // zera o contador após aplicar
-        //} else {
-        //    System.out.println("Rendimento já aplicado neste mês simulado.");
-        //}
+        return false;
     }
 
     @Override

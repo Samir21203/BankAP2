@@ -11,7 +11,7 @@ import util.Constantes;
 
 public class ContaDAO {
     
-    private static ContaDAO instancia;
+    private static final ContaDAO instancia = new ContaDAO();
     private List<Conta> contas;
     
     // Construtor privado que carrega os clientes do arquivo no momento da criação
@@ -21,9 +21,6 @@ public class ContaDAO {
     
     // Método público para obter a instância única da classe.
     public static ContaDAO getInstance() {
-        if (instancia == null) {
-            instancia = new ContaDAO();
-        }
         return instancia;
     }
     

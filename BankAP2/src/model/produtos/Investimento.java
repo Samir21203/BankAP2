@@ -35,12 +35,12 @@ public class Investimento implements ProdutoBancario {
     
     // --- Métodos da Interface ---
     @Override
-    public long getCodigo () {
+    public long getCodigoUnico () {
         return this.codigo;
     }
     
     @Override
-    public void setCodigo (long codigo) {
+    public void setCodigoUnico (long codigo) {
         this.codigo = codigo;
     }
     
